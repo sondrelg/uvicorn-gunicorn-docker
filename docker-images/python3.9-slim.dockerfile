@@ -1,6 +1,6 @@
-FROM python:3.7
+FROM python:3.9-slim
 
-LABEL maintainer="Sebastian Ramirez <tiangolo@gmail.com>"
+LABEL maintainer="Sondre Lillebø Gundersen <sondrelg@live.no>"
 
 RUN pip install --no-cache-dir "uvicorn[standard]" gunicorn
 
@@ -19,6 +19,6 @@ ENV PYTHONPATH=/app
 
 EXPOSE 80
 
-# Run the start script, it will check for an /app/prestart.sh script (e.g. for migrations)
-# And then will start Gunicorn with Uvicorn
+# Run the start script, which will check for an
+# /app/prestart.sh script, before starting gunicorn
 CMD ["/start.sh"]
