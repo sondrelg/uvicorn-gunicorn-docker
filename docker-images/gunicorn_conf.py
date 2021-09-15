@@ -18,15 +18,27 @@ else:
 if use_max_workers:
     web_concurrency = min(web_concurrency, use_max_workers)
 
+# Gunicorn config variables
+loglevel = os.getenv('LOG_LEVEL', 'info')
+workers = web_concurrency
+bind = bind_env or f'{host}:{port}'
+errorlog = os.getenv('ERROR_LOG', None)
+worker_tmp_dir = '/dev/shm'
+accesslog = os.getenv('ACCESS_LOG', None)
+graceful_timeout = int(os.getenv('GRACEFUL_TIMEOUT', '120'))
+timeout = int(os.getenv('TIMEOUT', '120'))
+keepalive = int(os.getenv('KEEP_ALIVE', '5'))
+
+# For debugging and testing
 log_data = {
-    'loglevel': os.getenv('LOG_LEVEL', 'info'),
+    'loglevel': loglevel,
     'workers': web_concurrency,
-    'bind': bind_env or f'{host}:{port}',
-    'graceful_timeout': int(os.getenv('GRACEFUL_TIMEOUT', '120')),
-    'timeout': int(os.getenv('TIMEOUT', '120')),
-    'keepalive': int(os.getenv('KEEP_ALIVE', '5')),
-    'errorlog': os.getenv('ERROR_LOG', None),
-    'accesslog': os.getenv('ACCESS_LOG', None),
+    'bind': bind,
+    'graceful_timeout': graceful_timeout,
+    'timeout': timeout,
+    'keepalive': keepalive,
+    'errorlog': errorlog,
+    'accesslog': accesslog,
     # Additional, non-gunicorn variables
     'workers_per_core': workers_per_core,
     'use_max_workers': use_max_workers,
