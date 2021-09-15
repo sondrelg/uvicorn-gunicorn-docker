@@ -2,14 +2,19 @@
 
 set -e
 
-use_tag="sondrelg/uvicorn-gunicorn:$NAME"
-use_dated_tag="${use_tag}-$(date -I)"
+full="sondrelg/uvicorn-gunicorn:$NAME"
+full_date="${full}-$(date -I)"
+slim="${full}-slim"
+slim_date="${full}-$(date -I)"
 
 bash scripts/build.sh
 
-docker tag "$use_tag" "$use_dated_tag"
+docker tag "$full" "$full_date"
+docker tag "$slim" "$slim_date"
 
 bash scripts/docker-login.sh
 
-docker push "$use_tag"
-docker push "$use_dated_tag"
+docker push "$full"
+docker push "$slim"
+docker push "$full_date"
+docker push "$slim_date"
