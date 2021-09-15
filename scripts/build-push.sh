@@ -5,7 +5,7 @@ set -e
 full="sondrelg/uvicorn-gunicorn:$NAME"
 full_date="${full}-$(date -I)"
 slim="${full}-slim"
-slim_date="${full}-$(date -I)"
+slim_date="${full}-slim-$(date -I)"
 
 bash scripts/build.sh
 
